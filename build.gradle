@@ -1,0 +1,155 @@
+ext {
+    junitVersion = '4.12'
+    assertjVersion = '3.13.2'
+    lombokVersion = '1.18.12'
+    log4jVersion = '1.2.17'
+    log4j2Version = '2.12.1'
+    logbackVersion = '1.2.3'
+
+    ossrhUsername = 'set via .gradle/gradle.properties'
+    ossrhPassword = 'set via .gradle/gradle.properties'
+}
+
+// 'core' must configured first, because the other modules depend on it's test output
+project(':assertj-logging-core') {
+    apply plugin: 'java'
+}
+
+
+subprojects {
+    group = 'de.neuland-bfi'
+    version = '0.1'
+
+    repositories {
+        mavenCentral()
+    }
+
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+    apply plugin: 'maven'
+    apply plugin: 'signing'
+
+    compileJava {
+        sourceCompatibility = 1.7
+        targetCompatibility = 1.7
+    }
+
+    dependencies {
+        implementation "junit:junit:${junitVersion}"
+        implementation "org.assertj:assertj-core:${assertjVersion}"
+
+        compileOnly "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+        testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    }
+
+    java {
+        withSourcesJar()
+        withJavadocJar()
+    }
+
+    artifacts {
+        archives javadocJar, sourcesJar
+    }
+
+    signing {
+        sign configurations.archives
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                pom.project {
+                    name 'AssertJ Logging'
+                    packaging 'jar'
+                    // optionally artifactId can be defined here
+                    description """\
+                                 assertj-logging's intention is to provide an easy way to unit test expected logging
+                                 for different logging implementations with JUnit 4 AssertJ.""".stripIndent()
+                    url 'http://www.example.com/example-application'
+
+                    scm {
+                        connection 'https://github.com/neuland/assertj-logging.git'
+                        developerConnection 'https://github.com/neuland/assertj-logging.git'
+                        url 'https://github.com/neuland/assertj-logging'
+                    }
+
+                    licenses {
+                        license {
+                            name 'The Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'c.stuht'
+                            name 'Christian Stuht'
+                            email 'christian.stuht@neuland-bfi.de'
+                        }
+                        developer {
+                            id 'a.grimm'
+                            name 'Achim Grimm'
+                            email 'achim.grimm@neuland-bfi.de'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (it.name != 'assertj-logging-core') {
+        dependencies {
+            api project(':assertj-logging-core')
+
+            testImplementation project(':assertj-logging-core').sourceSets.test.output
+        }
+    }
+}
+
+
+project(':assertj-logging-log4j12') {
+    dependencies {
+        implementation "log4j:log4j:${log4jVersion}"
+    }
+}
+
+
+project(':assertj-logging-log4j') {
+    dependencies {
+        implementation "org.apache.logging.log4j:log4j-core:${log4j2Version}"
+    }
+}
+
+
+project(':assertj-logging-logback') {
+    dependencies {
+        implementation "ch.qos.logback:logback-classic:${logbackVersion}"
+    }
+}
+
+
+wrapper {
+    gradleVersion = '6.3'
+    distributionType = 'BIN'
+}
