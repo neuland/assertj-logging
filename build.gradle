@@ -1,3 +1,5 @@
+import javax.naming.ConfigurationException
+
 ext {
     junitVersion = '4.12'
     assertjVersion = '3.13.2'
@@ -6,8 +8,9 @@ ext {
     log4j2Version = '2.12.1'
     logbackVersion = '1.2.3'
 
-    ossrhUsername = 'set via .gradle/gradle.properties'
-    ossrhPassword = 'set via .gradle/gradle.properties'
+    isReleaseVersion = !version.endsWith('SNAPSHOT')
+    sonatypeUsername = project.findProperty('sonatype.username')
+    sonatypePassword = project.findProperty('sonatype.password')
 }
 
 // 'core' must configured first, because the other modules depend on it's test output
@@ -26,7 +29,6 @@ subprojects {
 
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
-    apply plugin: 'maven'
     apply plugin: 'signing'
 
     compileJava {
@@ -45,84 +47,92 @@ subprojects {
         testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     }
 
+    if (it.name != 'assertj-logging-core') {
+        dependencies {
+            api project(':assertj-logging-core')
+
+            testImplementation project(':assertj-logging-core').sourceSets.test.output
+        }
+    }
+
     java {
         withSourcesJar()
         withJavadocJar()
-    }
-
-    artifacts {
-        archives javadocJar, sourcesJar
-    }
-
-    signing {
-        sign configurations.archives
     }
 
     publishing {
         publications {
             mavenJava(MavenPublication) {
                 from components.java
-            }
-        }
-    }
 
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                    authentication(userName: ossrhUsername, password: ossrhPassword)
-                }
-
-                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                    authentication(userName: ossrhUsername, password: ossrhPassword)
-                }
-
-                pom.project {
-                    name 'AssertJ Logging'
-                    packaging 'jar'
-                    // optionally artifactId can be defined here
-                    description """\
-                                 assertj-logging's intention is to provide an easy way to unit test expected logging
-                                 for different logging implementations with JUnit 4 AssertJ.""".stripIndent()
-                    url 'http://www.example.com/example-application'
-
-                    scm {
-                        connection 'https://github.com/neuland/assertj-logging.git'
-                        developerConnection 'https://github.com/neuland/assertj-logging.git'
-                        url 'https://github.com/neuland/assertj-logging'
-                    }
-
+                pom {
+                    name = 'AssertJ Logging'
+                    description = 'Logging Assertions for JUnit 4 and AssertJ'
+                    url = 'https://github.com/neuland/assertj-logging'
                     licenses {
                         license {
-                            name 'The Apache License, Version 2.0'
-                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            name = 'Apache License, Version 2.0'
+                            url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
                         }
                     }
-
                     developers {
                         developer {
-                            id 'c.stuht'
-                            name 'Christian Stuht'
-                            email 'christian.stuht@neuland-bfi.de'
+                            id = 'c.stuht'
+                            name = 'Christian Stuht'
+                            email = 'christian.stuht@neuland-bfi.de'
                         }
                         developer {
-                            id 'a.grimm'
-                            name 'Achim Grimm'
-                            email 'achim.grimm@neuland-bfi.de'
+                            id = 'a.grimm'
+                            name = 'Achim Grimm'
+                            email = 'achim.grimm@neuland-bfi.de'
                         }
                     }
+                    scm {
+                        connection = 'scm:git:https://github.com/neuland/assertj-logging.git'
+                        developerConnection = 'scm:git:https://github.com/neuland/assertj-logging.git'
+                        url = 'scm:git:https://github.com/neuland/assertj-logging.git'
+                    }
+                    issueManagement {
+                        system = 'GitHub'
+                        url = 'https://github.com/neuland/assertj-logging/issues'
+                    }
+//                    distributionManagement {
+//                        downloadUrl = 'https://github.com/neuland/assertj-logging/releases'
+//                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                name = 'Sonatype'
+                if (isReleaseVersion) {
+                    url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+                } else {
+                    url 'https://oss.sonatype.org/content/repositories/snapshots/'
+                }
+                credentials {
+                    username sonatypeUsername
+                    password sonatypePassword
                 }
             }
         }
     }
 
-    if (it.name != 'assertj-logging-core') {
-        dependencies {
-            api project(':assertj-logging-core')
+    signing {
+        required { isReleaseVersion && gradle.taskGraph.hasTask('publish') }
+        sign publishing.publications.mavenJava
+    }
 
-            testImplementation project(':assertj-logging-core').sourceSets.test.output
+    tasks.withType(PublishToMavenRepository) {
+        doFirst {
+            if (!sonatypeUsername) {
+                throw new ConfigurationException(
+                        'Please set the Sonatype username with project property "sonatype.username"')
+            }
+            if (!sonatypePassword) {
+                throw new ConfigurationException(
+                        'Please set the Sonatype password with project property "sonatype.password"')
+            }
         }
     }
 }

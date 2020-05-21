@@ -23,7 +23,7 @@ _build.gradle_
 
 ```$groovy
 dependencies {
-    testImplementation 'de.neuland-bfi:assertj-logging-log4j2:0.1'
+    testImplementation 'de.neuland-bfi:assertj-logging-log4j:0.1'
 }
 ```
 
@@ -34,7 +34,7 @@ _pom.xml_
 ```$xml
 <dependency>
     <groupId>de.neuland-bfi</groupId>
-    <artifactId>assertj-logging-log4j2</artifactId>
+    <artifactId>assertj-logging-log4j</artifactId>
     <version>0.1</version>
     <scope>test</scope>
 </dependency>
@@ -63,13 +63,13 @@ public class LoggingSourceTest {
     @Test
     public void shouldCaptureLogging() {
         // given
-        String message = "Error Message";
+        String expectedMessage = "Error Message";
 
         // when
         new LoggingSource().doSomethingThatLogsErrorMessage();
 
         // then
-        assertThat(logging).hasErrorMessage(message);
+        assertThat(logging).hasErrorMessage(expectedMessage);
     }
 }
 ```
