@@ -21,7 +21,7 @@ project(':assertj-logging-core') {
 
 subprojects {
     group = 'de.neuland-bfi'
-    version = '0.1'
+    version = '0.2'
 
     repositories {
         mavenCentral()
