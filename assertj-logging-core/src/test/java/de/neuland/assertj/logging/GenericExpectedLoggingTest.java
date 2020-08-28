@@ -45,6 +45,20 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
+    public void shouldNotHaveErrorMessage() {
+        // given
+        String infoMessage = "Info Message";
+        String warningMessage = "Warning Message";
+
+        // when
+        logInfo(infoMessage);
+        logWarning(warningMessage);
+
+        // then
+        assertThatExpectedLogging().hasNoErrorMessage();
+    }
+
+    @Test
     public void shouldHaveErrorMessageMatchingRegularExpression() {
         // given
         String message = "Error Message";
@@ -99,6 +113,20 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
+    public void shouldNotHaveWarningMessage() {
+        // given
+        String infoMessage = "Info Message";
+        String errorMessage = "Error Message";
+
+        // when
+        logInfo(infoMessage);
+        logError(errorMessage);
+
+        // then
+        assertThatExpectedLogging().hasNoWarningMessage();
+    }
+
+    @Test
     public void shouldHaveWarningMessageWithThrowable() {
         // given
         String message = "Warning Message";
@@ -150,6 +178,20 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
 
         // then
         assertThatExpectedLogging().hasInfoMessage(message);
+    }
+
+    @Test
+    public void shouldNotHaveInfoMessage() {
+        // given
+        String warningMessage = "Warning Message";
+        String errorMessage = "Error Message";
+
+        // when
+        logWarning(warningMessage);
+        logError(errorMessage);
+
+        // then
+        assertThatExpectedLogging().hasNoInfoMessage();
     }
 
     @Test
