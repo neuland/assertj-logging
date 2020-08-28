@@ -86,16 +86,19 @@ The following assertions are available:
 
 ```java
 assertThat(logging).hasErrorMessage(String message);
+assertThat(logging).hasNoErrorMessage();
 assertThat(logging).hasErrorMessage(String message, Throwable throwable);
 assertThat(logging).hasErrorMessageMatching(String regex);
 assertThat(logging).hasErrorMessageMatching(String regex, Throwable throwable);
 
 assertThat(logging).hasWarningMessage(String message);
+assertThat(logging).hasNoWarningMessage();
 assertThat(logging).hasWarningMessage(String message, Throwable throwable);
 assertThat(logging).hasWarningMessageMatching(String regex);
 assertThat(logging).hasWarningMessageMatching(String regex, Throwable throwable);
 
 assertThat(logging).hasInfoMessage(String message);
+assertThat(logging).hasNoInfoMessage();
 assertThat(logging).hasInfoMessageMatching(String regex);
 ```
 
