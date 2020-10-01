@@ -1,0 +1,12 @@
+language: java
+jdk:
+  - oraclejdk11
+  - openjdk8
+  - openjdk11
+before_cache:
+  - rm --force             $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm --force --recursive $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
