@@ -120,7 +120,8 @@ public class ExpectedLoggingAssert extends ListAssert<LogEvent> {
     }
 
     private ListAssert<LogEvent> messagesWithLevel(LogLevel logLevel) {
-        return filteredOn(new LogLevelFilter(logLevel));
+        //noinspection RedundantCast: cast required for assertj 2.9.0
+        return (ListAssert<LogEvent>) filteredOn(new LogLevelFilter(logLevel));
     }
 
     private ExpectedLoggingAssert hasMessageWithLevelAndThrowable(LogLevel logLevel,
