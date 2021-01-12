@@ -31,13 +31,13 @@ public class LogbackLogEventCaptureAppender extends ListAppender<ILoggingEvent> 
 
     private LogLevel level(ILoggingEvent event) {
         Level level = event.getLevel();
-        if (Level.ERROR == level) {
+        if (Level.ERROR.equals(level)) {
             return LogLevel.ERROR;
         }
-        if (Level.WARN == level) {
+        if (Level.WARN.equals(level)) {
             return LogLevel.WARNING;
         }
-        if (Level.INFO == level) {
+        if (Level.INFO.equals(level)) {
             return LogLevel.INFO;
         }
         return LogLevel.IGNORED;

@@ -34,13 +34,13 @@ public class Log4j12LogEventCaptureAppender extends AppenderSkeleton implements 
 
     private LogLevel logLevel(LoggingEvent event) {
         Level level = event.getLevel();
-        if (Level.ERROR == level) {
+        if (Level.ERROR.equals(level)) {
             return LogLevel.ERROR;
         }
-        if (Level.WARN == level) {
+        if (Level.WARN.equals(level)) {
             return LogLevel.WARNING;
         }
-        if (Level.INFO == level) {
+        if (Level.INFO.equals(level)) {
             return LogLevel.INFO;
         }
         return LogLevel.IGNORED;
