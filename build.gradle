@@ -2,7 +2,7 @@ import javax.naming.ConfigurationException
 
 ext {
     junitVersion = '4.12'
-    assertjVersion = '3.13.2'
+    assertjVersion = '2.9.0'
     lombokVersion = '1.18.12'
     log4jVersion = '1.2.17'
     log4j2Version = '2.12.1'
@@ -21,7 +21,7 @@ project(':assertj-logging-core') {
 
 subprojects {
     group = 'de.neuland-bfi'
-    version = '0.2'
+    version = '0.3'
 
     repositories {
         mavenCentral()
@@ -160,6 +160,6 @@ project(':assertj-logging-logback') {
 
 
 wrapper {
-    gradleVersion = '6.3'
+    gradleVersion = '6.8'
     distributionType = 'BIN'
 }

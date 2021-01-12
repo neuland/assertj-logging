@@ -37,13 +37,13 @@ public class Log4jLogEventCaptureAppender extends AbstractAppender implements Lo
 
     private LogLevel level(org.apache.logging.log4j.core.LogEvent event) {
         Level level = event.getLevel();
-        if (Level.ERROR == level) {
+        if (Level.ERROR.equals(level)) {
             return LogLevel.ERROR;
         }
-        if (Level.WARN == level) {
+        if (Level.WARN.equals(level)) {
             return LogLevel.WARNING;
         }
-        if (Level.INFO == level) {
+        if (Level.INFO.equals(level)) {
             return LogLevel.INFO;
         }
         return LogLevel.IGNORED;

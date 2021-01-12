@@ -3,8 +3,6 @@ package de.neuland.assertj.logging;
 import lombok.extern.log4j.Log4j;
 import org.junit.Rule;
 
-import static de.neuland.assertj.logging.TestAssertions.assertThat;
-
 
 @Log4j
 public class Log4j12ExpectedLoggingTest extends GenericExpectedLoggingTest<ExpectedLogging> {
