@@ -91,7 +91,7 @@ public class ExpectedLoggingAssert extends ListAssert<LogEvent> {
                         logLevel,
                         regex,
                         joinLogEvents())
-                        .haveAtLeastOne(new Condition<LogEvent>() {
+                        .haveAtLeastOne(new Condition<>() {
                             @Override public boolean matches(LogEvent logEvent) {
                                 return logEvent.getLevel() == logLevel &&
                                        logEvent.matchesMessage(regex);
@@ -108,7 +108,7 @@ public class ExpectedLoggingAssert extends ListAssert<LogEvent> {
                         logLevel,
                         regex,
                         joinLogEvents())
-                        .haveAtLeastOne(new Condition<LogEvent>() {
+                        .haveAtLeastOne(new Condition<>() {
                             @Override public boolean matches(LogEvent logEvent) {
                                 return logEvent.getLevel() == logLevel &&
                                        logEvent.matchesMessage(regex) &&
@@ -120,8 +120,7 @@ public class ExpectedLoggingAssert extends ListAssert<LogEvent> {
     }
 
     private ListAssert<LogEvent> messagesWithLevel(LogLevel logLevel) {
-        //noinspection RedundantCast: cast required for assertj 2.9.0
-        return (ListAssert<LogEvent>) filteredOn(new LogLevelFilter(logLevel));
+        return filteredOn(new LogLevelFilter(logLevel));
     }
 
     private ExpectedLoggingAssert hasMessageWithLevelAndThrowable(LogLevel logLevel,

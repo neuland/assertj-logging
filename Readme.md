@@ -23,7 +23,7 @@ _build.gradle_
 
 ```$groovy
 dependencies {
-    testImplementation 'de.neuland-bfi:assertj-logging-log4j:0.2'
+    testImplementation 'de.neuland-bfi:assertj-logging-log4j:0.4.0'
 }
 ```
 
@@ -35,7 +35,7 @@ _pom.xml_
 <dependency>
     <groupId>de.neuland-bfi</groupId>
     <artifactId>assertj-logging-log4j</artifactId>
-    <version>0.2</version>
+    <version>0.4.0</version>
     <scope>test</scope>
 </dependency>
 ```
