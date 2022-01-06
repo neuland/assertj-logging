@@ -157,6 +157,6 @@ project(':assertj-logging-logback') {
 
 
 wrapper {
-    gradleVersion = '6.8'
+    gradleVersion = '7.3.3'
     distributionType = 'BIN'
 }
