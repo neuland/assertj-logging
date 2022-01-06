@@ -2,11 +2,11 @@ import javax.naming.ConfigurationException
 
 ext {
     junitVersion = '4.13.2'
-    assertjVersion = '2.9.1'
+    assertjVersion = '3.22.0'
     lombokVersion = '1.18.22'
     log4jVersion = '1.2.17'
-    log4j2Version = '2.17.0'
-    logbackVersion = '1.2.7'
+    log4j2Version = '2.17.1'
+    logbackVersion = '1.2.10'
 
     isReleaseVersion = !version.endsWith('SNAPSHOT')
     sonatypeUsername = project.findProperty('sonatype.username')
@@ -21,7 +21,7 @@ project(':assertj-logging-core') {
 
 subprojects {
     group = 'de.neuland-bfi'
-    version = '0.3.1'
+    version = '0.4.0'
 
     repositories {
         mavenCentral()
@@ -32,8 +32,8 @@ subprojects {
     apply plugin: 'signing'
 
     compileJava {
-        sourceCompatibility = 1.7
-        targetCompatibility = 1.7
+        sourceCompatibility = '11'
+        targetCompatibility = '11'
     }
 
     dependencies {
@@ -96,9 +96,6 @@ subprojects {
                         system = 'GitHub'
                         url = 'https://github.com/neuland/assertj-logging/issues'
                     }
-//                    distributionManagement {
-//                        downloadUrl = 'https://github.com/neuland/assertj-logging/releases'
-//                    }
                 }
             }
         }
