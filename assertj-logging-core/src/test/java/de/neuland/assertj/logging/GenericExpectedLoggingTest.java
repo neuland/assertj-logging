@@ -1,6 +1,6 @@
 package de.neuland.assertj.logging;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static de.neuland.assertj.logging.LogLevel.*;
 import static de.neuland.assertj.logging.TestAssertions.assertThat;
@@ -20,7 +20,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     abstract void logInfo(String message);
 
     @Test
-    public void shouldCaptureLogging() {
+    void shouldCaptureLogging() {
         // given
         String message = "Error Message";
 
@@ -32,7 +32,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldHaveErrorMessage() {
+    void shouldHaveErrorMessage() {
         // given
         String message = "Error Message";
 
@@ -45,7 +45,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldNotHaveErrorMessage() {
+    void shouldNotHaveErrorMessage() {
         // given
         String infoMessage = "Info Message";
         String warningMessage = "Warning Message";
@@ -59,7 +59,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldHaveErrorMessageMatchingRegularExpression() {
+    void shouldHaveErrorMessageMatchingRegularExpression() {
         // given
         String message = "Error Message";
 
@@ -73,7 +73,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldHaveErrorMessageMatchingRegularExpressionWithThrowable() {
+    void shouldHaveErrorMessageMatchingRegularExpressionWithThrowable() {
         // given
         String message = "Error Message";
         Throwable throwable = new RuntimeException("Error Cause");
@@ -88,7 +88,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldHaveErrorMessageWithThrowable() {
+    void shouldHaveErrorMessageWithThrowable() {
         // given
         String message = "Error Message";
         Throwable throwable = new RuntimeException("Error Cause");
@@ -101,7 +101,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldHaveWarningMessage() {
+    void shouldHaveWarningMessage() {
         // given
         String message = "Warning Message";
 
@@ -113,7 +113,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldNotHaveWarningMessage() {
+    void shouldNotHaveWarningMessage() {
         // given
         String infoMessage = "Info Message";
         String errorMessage = "Error Message";
@@ -127,7 +127,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldHaveWarningMessageWithThrowable() {
+    void shouldHaveWarningMessageWithThrowable() {
         // given
         String message = "Warning Message";
         Throwable throwable = new RuntimeException("Warning Cause");
@@ -140,7 +140,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldHaveWarningMessageMatchingRegularExpression() {
+    void shouldHaveWarningMessageMatchingRegularExpression() {
         // given
         String message = "Warning Message";
 
@@ -154,7 +154,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldHaveWarningMessageMatchingRegularExpressionWithThrowable() {
+    void shouldHaveWarningMessageMatchingRegularExpressionWithThrowable() {
         // given
         String message = "Warning Message";
         Throwable throwable = new RuntimeException("Warning Cause");
@@ -169,7 +169,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldHaveInfoMessage() {
+    void shouldHaveInfoMessage() {
         // given
         String message = "Info Message";
 
@@ -181,7 +181,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldNotHaveInfoMessage() {
+    void shouldNotHaveInfoMessage() {
         // given
         String warningMessage = "Warning Message";
         String errorMessage = "Error Message";
@@ -195,7 +195,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldHaveInfoMessageMatchingRegularExpression() {
+    void shouldHaveInfoMessageMatchingRegularExpression() {
         // given
         String message = "Info Message";
 
@@ -209,7 +209,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldContainErrorMessages() {
+    void shouldContainErrorMessages() {
         // given
         String message1 = "Error message one";
         String message2 = "Error message two";
@@ -225,7 +225,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldContainWarningMessages() {
+    void shouldContainWarningMessages() {
         // given
         String message1 = "Warning message one";
         String message2 = "Warning message two";
@@ -241,7 +241,7 @@ abstract class GenericExpectedLoggingTest<RULE extends GenericExpectedLogging<?>
     }
 
     @Test
-    public void shouldContainInfoMessages() {
+    void shouldContainInfoMessages() {
         // given
         String message1 = "Info message one";
         String message2 = "Info message two";

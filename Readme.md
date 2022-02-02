@@ -1,9 +1,12 @@
 # assertj-logging - assertj assertions for logging
 
-_assertj-logging_'s intention is to provide an easy way to unit test expected logging for different logging implementations with [JUnit 4](https://junit.org/junit4/) and [AssertJ](https://assertj.github.io/doc/).
+_assertj-logging_'s intention is to provide an easy way to unit test expected logging for different logging implementations with [JUnit](https://junit.org/) and [AssertJ](https://assertj.github.io/doc/).
+
+Starting with version 0.5.0 a [JUnit 5 extension](https://junit.org/junit5/docs/current/user-guide/#extensions) is provided and [JUnit 4](https://junit.org/junit4/) is no longer supported.
+
+Versions up to 0.4.X provide a [JUnit 4 `@Rule`](https://github.com/junit-team/junit4/wiki/Rules).
 
 It currently supports
-* [log4j 1.2](https://logging.apache.org/log4j/1.2/): _assertj-logging-log4j12_
 * [log4j 2.x](https://logging.apache.org/log4j/2.x/): _assertj-logging-log4j_
 * [logback](http://logback.qos.ch/): _assertj-logging-logback_
 
@@ -35,7 +38,7 @@ _pom.xml_
 <dependency>
     <groupId>de.neuland-bfi</groupId>
     <artifactId>assertj-logging-log4j</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -48,6 +51,35 @@ After execution of the code under test this rule can be fed to a set of AssertJ 
 
 ## Usage
 
+### JUnit 5
+
+```java
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+
+import de.neuland.assertj.logging.ExpectedLogging;
+
+import static de.neuland.assertj.logging.ExpectedLoggingAssertions.assertThat;
+
+public class LoggingSourceTest {
+    @RegisterExtension
+    private final ExpectedLogging logging = ExpectedLogging.forSource(LoggingSource.class);
+
+    @Test
+    void shouldCaptureLogging() {
+        // given
+        String expectedMessage = "Error Message";
+
+        // when
+        new LoggingSource().doSomethingThatLogsErrorMessage();
+
+        // then
+        assertThat(logging).hasErrorMessage(expectedMessage);
+    }
+}
+```
+
+### JUnit 4
 ```java
 import org.junit.Rule;
 import org.junit.Test;

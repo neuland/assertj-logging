@@ -1,7 +1,8 @@
 package de.neuland.assertj.logging;
 
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
+import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ import java.util.List;
  * After executing the method that is expected to log,
  * you can verify this with assertj assertions defined in {@code ExpectedLoggingAssert}
  */
-public abstract class GenericExpectedLogging<APPENDER extends LogEventCaptureAppender> extends TestWatcher {
+public abstract class GenericExpectedLogging<APPENDER extends LogEventCaptureAppender> implements BeforeEachCallback, AfterEachCallback {
     final String loggingSource;
     private final ThreadLocal<APPENDER> threadLocalAppender = new ThreadLocal<>();
 
@@ -41,7 +42,7 @@ public abstract class GenericExpectedLogging<APPENDER extends LogEventCaptureApp
     }
 
     @Override
-    protected void starting(Description description) {
+    public void beforeEach(ExtensionContext context) {
         APPENDER captureAppender = addCaptureAppender();
         assertLoggerLevelIsAtLeastInfo();
 
@@ -49,7 +50,7 @@ public abstract class GenericExpectedLogging<APPENDER extends LogEventCaptureApp
     }
 
     @Override
-    protected void finished(final Description description) {
+    public void afterEach(ExtensionContext context) {
         removeCaptureAppender(threadLocalAppender.get());
     }
 

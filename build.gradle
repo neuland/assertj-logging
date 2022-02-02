@@ -1,11 +1,10 @@
 import javax.naming.ConfigurationException
 
 ext {
-    junitVersion = '4.13.2'
+    junitVersion = '5.8.2'
     assertjVersion = '3.22.0'
     lombokVersion = '1.18.22'
-    log4jVersion = '1.2.17'
-    log4j2Version = '2.17.1'
+    log4jVersion = '2.17.1'
     logbackVersion = '1.2.10'
 
     isReleaseVersion = !version.endsWith('SNAPSHOT')
@@ -21,7 +20,7 @@ project(':assertj-logging-core') {
 
 subprojects {
     group = 'de.neuland-bfi'
-    version = '0.4.0'
+    version = '0.5.0'
 
     repositories {
         mavenCentral()
@@ -37,14 +36,16 @@ subprojects {
     }
 
     dependencies {
-        implementation "junit:junit:${junitVersion}"
-        implementation "org.assertj:assertj-core:${assertjVersion}"
+        api "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+        api "org.assertj:assertj-core:${assertjVersion}"
 
         compileOnly "org.projectlombok:lombok:${lombokVersion}"
         annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
         testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
         testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
     }
 
     if (it.name != 'assertj-logging-core') {
@@ -60,6 +61,10 @@ subprojects {
         withJavadocJar()
     }
 
+    test {
+        useJUnitPlatform()
+    }
+
     publishing {
         publications {
             mavenJava(MavenPublication) {
@@ -67,7 +72,7 @@ subprojects {
 
                 pom {
                     name = 'AssertJ Logging'
-                    description = 'Logging Assertions for JUnit 4 and AssertJ'
+                    description = 'Logging Assertions for JUnit 5 and AssertJ'
                     url = 'https://github.com/neuland/assertj-logging'
                     licenses {
                         license {
@@ -135,16 +140,9 @@ subprojects {
 }
 
 
-project(':assertj-logging-log4j12') {
-    dependencies {
-        implementation "log4j:log4j:${log4jVersion}"
-    }
-}
-
-
 project(':assertj-logging-log4j') {
     dependencies {
-        implementation "org.apache.logging.log4j:log4j-core:${log4j2Version}"
+        implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
     }
 }
 

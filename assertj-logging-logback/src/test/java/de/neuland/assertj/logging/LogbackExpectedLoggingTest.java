@@ -1,14 +1,14 @@
 package de.neuland.assertj.logging;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.slf4j.Logger;
 
 
 @Slf4j
 public class LogbackExpectedLoggingTest extends GenericExpectedLoggingTest<ExpectedLogging> {
-    @Rule
-    public ExpectedLogging logging = ExpectedLogging.forSource(LogbackExpectedLoggingTest.class);
+    @RegisterExtension
+    private final ExpectedLogging logging = ExpectedLogging.forSource(LogbackExpectedLoggingTest.class);
 
     @Override
     ExpectedLogging expectedLoggingRule() {

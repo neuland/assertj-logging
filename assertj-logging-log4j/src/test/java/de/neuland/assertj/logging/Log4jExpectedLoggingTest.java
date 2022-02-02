@@ -1,17 +1,17 @@
 package de.neuland.assertj.logging;
 
 import org.apache.logging.log4j.Logger;
-import org.junit.Before;
-import org.junit.Rule;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 
 public class Log4jExpectedLoggingTest extends GenericExpectedLoggingTest<ExpectedLogging> {
-    @Rule
-    public ExpectedLogging logging = ExpectedLogging.forSource(TestLogSource.class);
+    @RegisterExtension
+    private final ExpectedLogging logging = ExpectedLogging.forSource(TestLogSource.class);
 
     private TestLogSource logSource;
 
-    @Before
+    @BeforeEach
     public void setup() {
         logSource = new TestLogSource();
     }
