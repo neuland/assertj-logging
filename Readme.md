@@ -9,6 +9,7 @@ Versions up to 0.4.X provide a [JUnit 4 `@Rule`](https://github.com/junit-team/j
 It currently supports
 * [log4j 2.x](https://logging.apache.org/log4j/2.x/): _assertj-logging-log4j_
 * [logback](http://logback.qos.ch/): _assertj-logging-logback_
+* [java.util.logging](https://docs.oracle.com/en/java/javase/17/core/java-logging-overview.html) _assertj-logging-jul_
 
 
 ## Contents
@@ -109,6 +110,9 @@ public class LoggingSourceTest {
 ### Supported Log Levels
 
 We consider _ERROR_, _WARNING_ and _INFO_ to be the test-worthy log levels.
+
+For java.util.logging this translates to _SEVERE_, _WARNING_ and _INFO_ levels.
+
 
 Thus, _assertj-logging_ provides assertions for these log levels.
 
