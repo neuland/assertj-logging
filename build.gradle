@@ -153,6 +153,9 @@ project(':assertj-logging-logback') {
     }
 }
 
+project(':assertj-logging-jul') {
+}
+
 
 wrapper {
     gradleVersion = '7.3.3'

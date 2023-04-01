@@ -1,4 +1,4 @@
 rootProject.name = 'assertj-logging'
 
 include 'assertj-logging-core'
-include 'assertj-logging-log4j', 'assertj-logging-logback'
+include 'assertj-logging-log4j', 'assertj-logging-logback', 'assertj-logging-jul'
